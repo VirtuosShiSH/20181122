@@ -1,48 +1,15 @@
-var myLayerGroup = app.activeDocument.layerSets;//.getByName()
 var rootLayers = app.activeDocument.artLayers;
+var rootGroups = app.activeDocument.layerSets;
 
-//alert(myLayerGroup.length);
-//alert(rootLayers.length);
-
-for(i=0;i<myLayerGroup.length;i++){
-    var layerInGoup = myLayerGroup[i];
-    //alert(layerInGoup.artLayers[0].name);
-    //saveJpeg(layerInGoup.artLayers[0].name);
-}
-//for var in myLayerGroup  alert(myLayerGroup.name);
-// function saveJpegBackup(folder, name){
-//     var doc = app.activeDocument;
-//     if (folder != ""){
-//         alert(folder);
-//         //var layerFolder = new Folder(doc.path +'/' + folder + '/');
-//         //alert(layerFolder.path);
-//         var newFolder = new Folder(doc.path +'/' + folder + '/');
-//         if (!newFolder.exists){
-//             newFolder.create();
-//         }
-//        // alert(newFolder)
-//         var file = new File(newFolder + '/' + name + '.jpg');
-//     }else{
-//         var file = new File(doc.path + '/' + name + '.jpg');
-//     }
-//     var opts = new JPEGSaveOptions();
-//     opts.quality = 10;
-//     doc.saveAs(file, opts, true);
-// }
-
-function saveJpeg(folder, name){
+function saveJpeg(folder, name)
+{
     var doc = app.activeDocument;
     var newFolder;
     if (folder != ""){
-        // alert(folder);
-        //var layerFolder = new Folder(doc.path +'/' + folder + '/');
-        //alert(layerFolder.path);
         newFolder = new Folder(folder);
         if (!newFolder.exists){
             newFolder.create();
         }
-       // alert(newFolder)
-        // var file = new File(newFolder + '/' + name + '.jpg');
     }else{
         newFolder = doc.path;
     }
@@ -52,25 +19,28 @@ function saveJpeg(folder, name){
     doc.saveAs(file, opts, true);
 }
 
-function hideAllLayers(){
-    for (i=0; i<rootLayers.length; i++){
-        if (rootLayers[i].allLocked != true){
-            rootLayers[i].visible = false;
+function showHideAllLayers(groups,operation)
+{
+    var condition = false;
+    if (operation=='show'){
+        condition = true;
+    }
+    var artLayers = groups.artLayers;
+    var layerSets = groups.layerSets;
+    if (artLayers.length>0){
+        for (var i=0; i<artLayers.length; i++){
+            if (artLayers[i].allLocked != true){
+                artLayers[i].visible = condition;
+            }
         }
     }
-    for (i=0; i<myLayerGroup.length; i++){
-        myLayerGroup[i].visible = false;
-    }
-}
-
-function showAllLayers(){
-    for (i=0; i<rootLayers.length; i++){
-        if (rootLayers[i].allLocked != true){
-            rootLayers[i].visible = true;
+    if (layerSets.length>0){
+        for (var j=0; j<layerSets.length; j++){
+            if (layerSets[j].allLocked != true){
+                layerSets[j].visible = condition;
+                showHideAllLayers(layerSets[j],operation);
+            }
         }
-    }
-    for (i=0; i<myLayerGroup.length; i++){
-        myLayerGroup[i].visible = true;
     }
 }
 
@@ -82,68 +52,32 @@ function makeValidFileName(fileName)
 	return validName;
 }
 
-function diveAllLayers(groups,path){
-    //alert(groups.length);
-    //var curPath = path;
-    //alert(path);
-    for (i=0;i<groups.length;i++){
-        alert('i='+i);
+function diveAllLayers(groups,path)
+{
+    for (var i=0;i<groups.length;i++)
+    {
         var tempGroup = groups[i];
-        alert('msg1 '+tempGroup.name);
+        tempGroup.visible = true;
         var newPath = path + '/' + makeValidFileName(tempGroup.name);
-        // var newFolder = new Folder(newPath);
-        // if (!newFolder.exists){
-        //     newFolder.create();
-        // }
-        //alert(newPath);
-
-        alert('msg2 '+tempGroup.artLayers.length);
-        if(tempGroup.artLayers.length>0){
-            for(j=0; j<tempGroup.artLayers.length; j++){
-                //alert(tempGroup.artLayers[j].name);
+        if (tempGroup.artLayers.length>0)
+        {
+            for(var j=0; j<tempGroup.artLayers.length; j++)
+            {
+                tempGroup.artLayers[j].visible = true;
                 saveJpeg(newPath,makeValidFileName(tempGroup.artLayers[j].name));
-                alert('saved');
-                //var newFilename = makeValidFileName(tempGroup.artLayers[j].name);
+                tempGroup.artLayers[j].visible = false;
             }
         }
-        if(tempGroup.layerSets.length>0){
+        if(tempGroup.layerSets.length>0)
+        {
             diveAllLayers(tempGroup.layerSets,newPath);
         }
-        alert('done='+i);
+        tempGroup.visible = false;
     } 
 }
 
 (function main(){
-    var rootGroups = app.activeDocument.layerSets;
+    showHideAllLayers(app.activeDocument, 'show');
+    showHideAllLayers(app.activeDocument, 'hide');
     diveAllLayers(rootGroups, app.activeDocument.path);
-   // showAllLayers();
-   return;
-   alert("START");
-   hideAllLayers();
-   for (i=0; i<rootLayers.length; i++){
-       if (rootLayers[i].allLocked != true){
-           rootLayers[i].visible = true;
- //          saveJpeg("", rootLayers[i].name);
-           rootLayers[i].visible = false;
-        }
-    }
-    alert("ROOT LAYER DONE");
-    
-    for(i=0; i < myLayerGroup.length; i++){
-        myLayerGroup[i].visible = true;
-        for (j=0;j<myLayerGroup[i].artLayers.length;j++){
-            // alert("1-5");
-            myLayerGroup[i].artLayers[j].visible = true;
-            //alert("1-6");
-            var folder = myLayerGroup[i].name;
-           // alert(folder);
-            saveJpeg(myLayerGroup[i].name, myLayerGroup[i].artLayers[j].name);
-            myLayerGroup[i].artLayers[j].visible = false;
-        }
-        myLayerGroup[i].visible = false;
-    }
-    
-    alert("GROUP LAYER DONE");
-    //alert(layerInGoup.artLayers[0].name);
-        //saveJpeg(layerInGoup.artLayers[0].name);
-    })();
+})();
