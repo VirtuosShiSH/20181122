@@ -7,7 +7,7 @@ import tkinter.filedialog
 #cwd = os.getcwd()
 #wb = openpyxl.load_workbook(cwd+'\PUBG_QA\PUBG_QA.XLSX', data_only = 1)
 wb =openpyxl.load_workbook(tkinter.filedialog.askopenfilename(title='Choose Excel File...'), data_only = 1)
-sheet = wb['ShiSonghua']
+sheet = wb['Issues']
 row_count = sheet.max_row
 KeyDic = {}
 for i in range(2,row_count+1):
@@ -20,12 +20,18 @@ for i in range(2,row_count+1):
 picDir = tkinter.filedialog.askdirectory(title='Choose Pic Folder...')
 oldFileNameList = os.listdir(picDir)
 for name in oldFileNameList:
-    if '.' in name:
-        fName = name.split('.')[0]
-        fExt =  name.split('.')[1]
+    separator = ''
+    if '_' in name:
+        separator = '_'
+    else:
+        if '.' in name:
+            separator = '.'
+    if separator != '':
+        fName = name.split(separator)[0]
+        fExt =  name.split(separator)[1]
         for key in KeyDic.keys():
             if fName == str(key):
-                newName = 'PUBG_'+KeyDic[key]+'.'+fExt
+                newName = 'PUBG_'+KeyDic[key]+separator+fExt
                 print(str(key)+' >> '+newName)
                 os.chdir(picDir)
                 shutil.move(name,newName)                       #Rename and replace
