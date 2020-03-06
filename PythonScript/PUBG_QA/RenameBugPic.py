@@ -2,7 +2,10 @@ import os
 import re
 import shutil
 import openpyxl
+import webbrowser
 import tkinter.filedialog
+import requests
+import time
 #wb = openpyxl.load_workbook('c:\\Users\\shiso\\Documents\\Repo\\20181122\\PythonScript\\PUBG_QA\\PUBG_QA.XLSX')
 #cwd = os.getcwd()
 #wb = openpyxl.load_workbook(cwd+'\PUBG_QA\PUBG_QA.XLSX', data_only = 1)
@@ -19,6 +22,8 @@ for i in range(2,row_count+1):
 #picDir = 'C:\\Users\\shiso\\Documents\\Virtuos\\PUBG_QA\\test_files'
 picDir = tkinter.filedialog.askdirectory(title='Choose Pic Folder...')
 oldFileNameList = os.listdir(picDir)
+LinksToOpen = []
+myUniqueLinks = []
 for name in oldFileNameList:
     separator = ''
     if '_' in name:
@@ -34,6 +39,14 @@ for name in oldFileNameList:
                 newName = 'PUBG_'+KeyDic[key]+separator+fExt
                 print(str(key)+' >> '+newName)
                 os.chdir(picDir)
-                shutil.move(name,newName)                       #Rename and replace
+                LinksToOpen.append("https://jira.krafton.com/browse/PUBG-"+KeyDic[key])
+                #shutil.move(name,newName)                       #Rename and replace
                 #newName = picDir+'\\NEW\\'+newName             #Rename + Copy
                 #shutil.copyfile(name,newName)
+                mySet = set(LinksToOpen)
+                myUniqueLinks = list(mySet)
+for link in myUniqueLinks:
+    print(link)
+    time.sleep(0.2)
+    webbrowser.open_new_tab(link)
+print("Done")
