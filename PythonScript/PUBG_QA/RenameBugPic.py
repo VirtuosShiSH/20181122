@@ -45,8 +45,8 @@ for name in oldFileNameList:
                 #shutil.copyfile(name,newName)
                 mySet = set(LinksToOpen)
                 myUniqueLinks = list(mySet)
+myUniqueLinks.sort()
 for link in myUniqueLinks:
     print(link)
     time.sleep(0.2)
     webbrowser.open_new_tab(link)
-print("Done")
