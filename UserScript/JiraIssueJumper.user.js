@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         JIRA DIRECT ISSUE JUMP
-// @namespace    https://greasyfork.org/en/scripts/374422-jira-direct-issue-jump
-// @version      0.5
+// @name         JIRA ISSUE JUMP for PUBG
+// @namespace    https://greasyfork.org/en/scripts/397924-jira-direct-issue-jump
+// @version      0.1.0
 // @description  input 4 numbers and go to the issue directly
 // @author       pto2k
-// @match        https://fantasyflightgames.atlassian.net/*
+// @match        https://jira.krafton.com/browse/PUBG*
 // @grant        none
 // ==/UserScript==
 
@@ -53,7 +53,7 @@ $(document).on('keydown', function (e) {
     }
     if (issueId.length == 4) {
       //alert(issueId);
-        var myUrl = "https://fantasyflightgames.atlassian.net/browse/LRIT-" + issueId;
+        var myUrl = "https://jira.krafton.com/browse/PUBG-" + issueId;
         issueId = "";
     //     myInput.style.width = "0%";
     //     myInput.style.height = "0%";
