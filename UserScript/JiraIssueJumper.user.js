@@ -5,7 +5,10 @@
 // @description  input 4 numbers and go to the issue directly
 // @author       pto2k
 // @match        https://jira.krafton.com/browse/PUBG*
+// @match        https://jira.krafton.com/projects/PUBG/*
 // @grant        none
+// @run-at       document-end
+// @noframes
 // ==/UserScript==
 
 var issueId ="";
@@ -16,25 +19,28 @@ myInput.style.color ="#12006f";
 myInput.style.backgroundColor ="#00111177";
 //myinput1.appendChild(a);
 
-myInput.style.top = "10px";
-myInput.style.left = "102px";
+myInput.style.top = "0px";
+myInput.style.left = "0px";
 myInput.style.width = "0%";
 myInput.style.height = "0%";
 myInput.style.fontSize = "400px";
 myInput.style.position = "fixed";
-myInput.style.textAlign = "left";
+myInput.style.textAlign = "center";
 myInput.style.marginTop = "20px";
+myInput.style.zIndex = "99999999";
 
+my_log('hello world')
 //var myInput = document.body.appendChild(myinput1);
 
-$(document).on('keydown', function (e) {
+document.addEventListener('keydown', function (e) {
+    my_log(e);
     var keyCode = e.keyCode || e.which;
     if (keyCode >= 96 && keyCode <= 105) {
         // Numpad keys
         keyCode -= 48;
     }
-    console.log(keyCode);
-    if ([13,32,64].includes(keyCode)){//exclude space, enter, delete
+    my_log('keycode is: ' + keyCode);
+    if ([32,64].includes(keyCode)){//exclude space, enter, delete
         return;
     }
     if( e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA" ) return;
@@ -51,7 +57,7 @@ $(document).on('keydown', function (e) {
         myInput.style.height = "0%";
         myInput.textContent = issueId;
     }
-    if (issueId.length == 4) {
+    if ((issueId.length == 5)||(keyCode == 13)) {
       //alert(issueId);
         var myUrl = "https://jira.krafton.com/browse/PUBG-" + issueId;
         issueId = "";
@@ -60,7 +66,11 @@ $(document).on('keydown', function (e) {
         //myInput.textContent = issueId;
         myInput.style.fontSize = "400px";
     //      myInput.style.backgroundColor ="#cc0da394";
-        myInput.style.color ="#fefe16";
+        myInput.style.color ="#a2ff00";
         window.open(myUrl,"_self");
     }
 });
+
+function my_log(log_text) {
+    console.log('%c My LOG: ' + log_text , 'background: #222; color: #bada55');
+}

@@ -5,6 +5,7 @@
 // @description  Turn console teleport command into buttons, Get to the map location faster!
 // @author       pto2k
 // @match        https://jira.krafton.com/browse/PUBG*
+// @match        https://jira.krafton.com/projects/PUBG/*
 // @require      https://code.jquery.com/jquery-1.11.3.min.js
 // @grant        GM_addStyle
 // @grant        GM_setClipboard
