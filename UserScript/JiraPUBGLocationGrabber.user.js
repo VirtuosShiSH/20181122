@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         PUBG JIRA LINK GRABBER
-// @namespace    https://twitter.com/pto2k
+// @namespace    https://greasyfork.org/en/scripts/397967-pubg-jira-link-grabber
 // @version      0.1
 // @description  Turn console teleport command into buttons, Get to the map location faster!
 // @author       pto2k
