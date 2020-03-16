@@ -14,7 +14,7 @@
 // ==/UserScript==
 
 var style =
-    "#location-button-panel {display:inline-block;position:fixed;top:50%;left:0;\
+    "#location-button-panel {display:inline-block;position:fixed;top:30%;left:0;\
     z-index:2147483647;background:#111;color:#fff;overflow:hidden;}\
     #location-button-panel input{color:#111;margin:2px 8px 2px 8px;border-width:2px;border-color:#32cd32}\
     #location-button-panel a{color:#fff;font-size:14px;text-decoration:none;\
