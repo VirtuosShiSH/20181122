@@ -1,11 +1,38 @@
-import numpy as np
-import scipy.misc as smp
+from tkinter import Tk, Label, Button, StringVar
 
-# Create a 1024x1024x3 array of 8 bit unsigned integers
-data = np.zeros( (1024,1024,3), dtype=np.uint8 )
+class MyFirstGUI:
+    LABEL_TEXT = [
+        "This is our first GUI!",
+        "Actually, this is our second GUI.",
+        "We made it more interesting...",
+        "...by making this label interactive.",
+        "Go on, click on it again.",
+    ]
+    def __init__(self, master):
+        self.master = master
+        master.title("A simple GUI")
 
-data[512,512] = [254,0,0]       # Makes the middle pixel red
-data[512,513] = [0,0,255]       # Makes the next pixel blue
+        self.label_index = 0
+        self.label_text = StringVar()
+        self.label_text.set(self.LABEL_TEXT[self.label_index])
+        self.label = Label(master, textvariable=self.label_text)
+        self.label.bind("<Button-1>", self.cycle_label_text)
+        self.label.pack()
 
-img = smp.toimage( data )       # Create a PIL image
-img.show()                      # View in default viewer
+        self.greet_button = Button(master, text="Greet", command=self.greet)
+        self.greet_button.pack()
+
+        self.close_button = Button(master, text="Close", command=master.quit)
+        self.close_button.pack()
+
+    def greet(self):
+        print("Greetings!")
+
+    def cycle_label_text(self, event):
+        self.label_index += 1
+        self.label_index %= len(self.LABEL_TEXT) # wrap around
+        self.label_text.set(self.LABEL_TEXT[self.label_index])
+
+root = Tk()
+my_gui = MyFirstGUI(root)
+root.mainloop()
