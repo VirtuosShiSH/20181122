@@ -40,7 +40,7 @@ for name in oldFileNameList:
                 print(str(key)+' >> '+newName)
                 os.chdir(picDir)
                 LinksToOpen.append("https://jira.krafton.com/browse/PUBG-"+KeyDic[key])
-                #shutil.move(name,newName)                       #Rename and replace
+                shutil.move(name,newName)                       #Rename and replace
                 #newName = picDir+'\\NEW\\'+newName             #Rename + Copy
                 #shutil.copyfile(name,newName)
                 mySet = set(LinksToOpen)
