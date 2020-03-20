@@ -34,13 +34,13 @@ Send {Enter}
 Send {CtrlDown}E
 Sleep 500
 Send 1
-Sleep 1500
+Sleep 1000
 Send b
 Sleep 1500
 Send {CtrlDown}E
-Sleep 1000
+Sleep 500
 Send {CtrlDown}E
-Sleep 1000
+Sleep 500
 Send ``
 Sleep, 500
 Send Stat FPS
@@ -52,4 +52,6 @@ Sleep, 500
 Send Admin PauseBlueZone 1
 Sleep 50
 Send {Enter}
+Sleep 100
+Send n
 return
